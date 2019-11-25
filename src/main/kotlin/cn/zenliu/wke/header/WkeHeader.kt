@@ -23,15 +23,10 @@ typealias PtrwkePostBodyElements = Pointer
 typealias jsType = Pointer
 typealias LRESULT = Pointer
 //typealias wkeRect = Pointer
-typealias jsValue = Pointer
 
-typealias wkeTitleChangedCallback = Pointer
 
-//typealias wkeURLChangedCallback2 = Pointer
-interface wkeURLChangedCallback2 {
-	@Delegate
-	fun invoke(webView: wkeWebView, param: Pointer?, frameId: wkeWebFrameHandle, url: wkeString)
-}
+
+
 
 typealias wkeURLChangedCallback = Pointer
 typealias wkePaintUpdatedCallback = Pointer

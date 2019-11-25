@@ -1,42 +1,46 @@
 package cn.zenliu.wke.header
 
-import jnr.ffi.*
+import jnr.ffi.util.*
 
 
-enum class WindowType {
+enum class WindowType : EnumMapper.IntegerEnum {
 	WINDOW_TYPE_POPUP,
 	WINDOW_TYPE_TRANSPARENT,
 	WINDOW_TYPE_CONTROL;
 
-	val value get() = this.ordinal
+	override fun intValue() = ordinal
 
 	companion object {
 		fun from(ord: Int) = values().getOrNull(ord)
 	}
 }
 
-enum class MouseFlags(val value: Int) {
+enum class MouseFlags(val value: Int) : EnumMapper.IntegerEnum {
 	LBUTTON(0x01),
 	RBUTTON(0x02),
 	SHIFT(0x04),
 	CONTROL(0x08),
 	MBUTTON(0x10);
 
+	override fun intValue() = ordinal
+
 	companion object {
 		fun from(ord: Int) = values().find { it.value == ord }
 	}
 }
 
-enum class KeyFlags(val value: Int) {
+enum class KeyFlags(val value: Int) : EnumMapper.IntegerEnum {
 	EXTENDED(0x0100),
 	REPEAT(0x4000);
 
+	override fun intValue() = ordinal
+
 	companion object {
 		fun from(ord: Int) = values().find { it.value == ord }
 	}
 }
 
-enum class MouseMsg(val value: Int) {
+enum class MouseMsg(val value: Int) : EnumMapper.IntegerEnum {
 	MOUSEMOVE(0x0200),
 	LBUTTONDOWN(0x0201),
 	LBUTTONUP(0x0202),
@@ -49,12 +53,14 @@ enum class MouseMsg(val value: Int) {
 	MBUTTONDBLCLK(0x0209),
 	MOUSEWHEEL(0x020A);
 
+	override fun intValue() = ordinal
+
 	companion object {
 		fun from(ord: Int) = values().find { it.value == ord }
 	}
 }
 
-enum class ProxyType {
+enum class ProxyType : EnumMapper.IntegerEnum {
 	NONE,
 	HTTP,
 	SOCKS4,
@@ -62,21 +68,25 @@ enum class ProxyType {
 	SOCKS5,
 	SOCKS5HOSTNAME;
 
+	override fun intValue() = ordinal
+
 	companion object {
 		fun from(ord: Int) = values().getOrNull(ord)
 	}
 }
 
-enum class SettingMask(val value: Int) {
+enum class SettingMask(val value: Int) : EnumMapper.IntegerEnum {
 	PROXY(1),
 	PAINTCALLBACK_IN_OTHER_THREAD(1 shl 2);
+
+	override fun intValue() = ordinal
 
 	companion object {
 		fun from(ord: Int) = values().find { it.value == ord }
 	}
 }
 
-enum class MenuItemId(val value: Int) {
+enum class MenuItemId(val value: Int) : EnumMapper.IntegerEnum {
 	MenuSelectedAllId(1 shl 1),
 	MenuSelectedTextId(1 shl 2),
 	MenuUndoId(1 shl 3),
@@ -89,25 +99,27 @@ enum class MenuItemId(val value: Int) {
 	MenuGoBackId(1 shl 10),
 	MenuReloadId(1 shl 11);
 
+	override fun intValue() = ordinal
+
 	companion object {
 		fun from(ord: Int) = values().find { it.value == ord }
 	}
 }
 
-enum class CookieCommand {
+enum class CookieCommand : EnumMapper.IntegerEnum {
 	ClearAllCookies,
 	ClearSessionCookies,
 	FlushCookiesToFile,
 	ReloadCookiesFromFile;
 
-	val value get() = ordinal
+	override fun intValue() = ordinal
 
 	companion object {
 		fun from(ord: Int) = values().getOrNull(ord)
 	}
 }
 
-enum class NavigationType {
+enum class NavigationType : EnumMapper.IntegerEnum {
 	LINKCLICK,
 	FORMSUBMITTE,
 	BACKFORWARD,
@@ -115,14 +127,15 @@ enum class NavigationType {
 	FORMRESUBMITT,
 	OTHER;
 
-	val value get() = ordinal
+
+	override fun intValue() = ordinal
 
 	companion object {
 		fun from(ord: Int) = values().getOrNull(ord)
 	}
 }
 
-enum class CursorInfoType {
+enum class CursorInfoType : EnumMapper.IntegerEnum {
 	Pointer,
 	Cross,
 	Hand,
@@ -168,14 +181,15 @@ enum class CursorInfoType {
 	Grabbing,
 	Custom;
 
-	val value get() = ordinal
+
+	override fun intValue() = ordinal
 
 	companion object {
 		fun from(ord: Int) = values().getOrNull(ord)
 	}
 }
 
-enum class StorageType {
+enum class StorageType : EnumMapper.IntegerEnum {
 	// String data with an associated MIME type. Depending on the MIME type, there may be
 	// optional metadata attributes as well.
 	String,
@@ -187,7 +201,7 @@ enum class StorageType {
 	// Stores the filesystem URL of one file being dragged into the renderer.
 	FileSystemFile;
 
-	val value get() = ordinal
+	override fun intValue() = ordinal
 
 	companion object {
 		fun from(ord: Int) = values().getOrNull(ord)
@@ -204,12 +218,15 @@ enum class WebDragOperation(val value: Long) {
 	Delete(32),
 	Every(0xffffffff);
 
+	//	override fun intValue() = value.toInt()
+	fun longValue() = value
+
 	companion object {
 		fun from(ord: Long) = values().find { it.value == ord }
 	}
 }
 
-enum class ResourceType(val value: Int) {
+enum class ResourceType(val value: Int) : EnumMapper.IntegerEnum {
 	WKE_RESOURCE_TYPE_MAIN_FRAME(0),       // top level page
 	WKE_RESOURCE_TYPE_SUB_FRAME(1),        // frame or iframe
 	WKE_RESOURCE_TYPE_STYLESHEET(2),       // a CSS stylesheet
@@ -230,32 +247,128 @@ enum class ResourceType(val value: Int) {
 	WKE_RESOURCE_TYPE_SERVICE_WORKER(15),  // the main resource of a service worker.
 	WKE_RESOURCE_TYPE_LAST_TYPE(11);
 
+	override fun intValue() = value
+
 	companion object {
 		fun from(ord: Int) = values().find { it.value == ord }
 	}
 }
 
-enum class HttBodyElementType {
+enum class OnContextMenuItemClickType(val value: Int) : EnumMapper.IntegerEnum {
+	kWkeContextMenuItemClickTypePrint(0x01);
+
+	override fun intValue() = ordinal
+
+	companion object {
+		fun from(ord: Int) = values().find { it.value == ord }
+	}
+}
+
+enum class HttBodyElementType : EnumMapper.IntegerEnum {
 	wkeHttBodyElementTypeData,
 	wkeHttBodyElementTypeFile;
 
-	val value get() = ordinal
+	override fun intValue() = ordinal
+
 
 	companion object {
 		fun from(ord: Int) = values().getOrNull(ord)
 	}
 }
 
-enum class RequestType {
+enum class RequestType : EnumMapper.IntegerEnum {
 	Invalidation,
 	Get,
 	Post,
 	Put;
 
-	val value get() = ordinal
+
+	override fun intValue() = ordinal
 
 	companion object {
 		fun from(ord: Int) = values().getOrNull(ord)
 	}
 }
 
+enum class OtherLoadType : EnumMapper.IntegerEnum {
+	WKE_DID_START_LOADING,
+	WKE_DID_STOP_LOADING,
+	WKE_DID_NAVIGATE,
+	WKE_DID_NAVIGATE_IN_PAGE,
+	WKE_DID_GET_RESPONSE_DETAILS,
+	WKE_DID_GET_REDIRECT_REQUEST,
+	WKE_DID_POST_REQUEST;
+
+	override fun intValue() = ordinal
+
+	companion object {
+		fun from(ord: Int) = values().getOrNull(ord)
+	}
+}
+
+enum class LoadingResult : EnumMapper.IntegerEnum {
+	WKE_LOADING_SUCCEEDED,
+	WKE_LOADING_FAILED,
+	WKE_LOADING_CANCELED;
+
+	override fun intValue() = ordinal
+
+	companion object {
+		fun from(ord: Int) = values().getOrNull(ord)
+	}
+}
+
+enum class DownloadOpt : EnumMapper.IntegerEnum {
+	kWkeDownloadOptCancel,
+	kWkeDownloadOptCacheData;
+
+	override fun intValue() = ordinal
+
+	companion object {
+		fun from(ord: Int) = values().getOrNull(ord)
+	}
+}
+
+enum class OnContextMenuItemClickStep(val value: Int) : EnumMapper.IntegerEnum {
+	Show(0x01),
+	Click(0x02);
+
+	override fun intValue() = value
+
+	companion object {
+		fun from(ord: Int) = values().getOrNull(ord)
+	}
+}
+
+enum class ConsoleLevel(val value: Int) : EnumMapper.IntegerEnum {
+	wkeLevelDebug(4),
+	wkeLevelLog(1),
+	wkeLevelInfo(5),
+	wkeLevelWarning(2),
+	wkeLevelError(3),
+	wkeLevelRevokedError(6),
+	wkeLevelLast(5);
+
+	override fun intValue() = value
+
+	companion object {
+		fun from(ord: Int) = values().getOrNull(ord)
+	}
+}
+
+enum class JsType : EnumMapper.IntegerEnum {
+	NUMBER,
+	STRING,
+	BOOLEAN,
+	OBJECT,
+	FUNCTION,
+	UNDEFINED,
+	ARRAY,
+	NULL;
+
+	override fun intValue() = ordinal
+
+	companion object {
+		fun from(ord: Int) = values().getOrNull(ord)
+	}
+}

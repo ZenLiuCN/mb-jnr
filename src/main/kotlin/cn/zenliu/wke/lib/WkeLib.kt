@@ -1,7 +1,8 @@
-package cn.zenliu.wke
+package cn.zenliu.wke.lib
 
 import cn.zenliu.wke.header.*
 import jnr.ffi.*
+import jnr.ffi.annotations.*
 import jnr.ffi.types.*
 
 
@@ -12,7 +13,9 @@ interface WkeLib {
 	fun wkeSetWkeDllPath(dllPath: String)
 	fun wkeGC(webView: wkeWebView, delayMs: Long)
 
-	//	5	 void wkeSetFileSystem(WKE_FILE_OPEN pfnOpen, WKE_FILE_CLOSE pfnClose, WKE_FILE_SIZE pfnSize, WKE_FILE_READ pfnRead, WKE_FILE_SEEK pfnSeek)
+	//	5
+	fun wkeSetFileSystem(pfnOpen: FILE_OPEN, pfnClose: FILE_CLOSE, pfnSize: FILE_SIZE, pfnRead: FILE_READ, pfnSeek: FILE_SEEK)
+
 	fun wkeIsDocumentReady(webView: wkeWebView): Boolean
 
 	fun wkeStopLoading(webView: wkeWebView)
@@ -142,13 +145,13 @@ interface WkeLib {
 	fun wkeGetCaretRect(webView: wkeWebView): Rect
 
 	//61
-	fun wkeRunJS(webView: wkeWebView, script: String): jsValue
+	fun wkeRunJS(webView: wkeWebView, script: String): JsValue
 
 	//62
-	fun wkeRunJSW(webView: wkeWebView, script: WCHAR_T): jsValue
+	fun wkeRunJSW(webView: wkeWebView, script: WCHAR_T): JsValue
 
 	//63
-	fun wkeGlobalExec(webView: wkeWebView): jsExecState
+	fun wkeGlobalExec(webView: wkeWebView): JsExecState
 
 	//64
 	fun wkeSleep(webView: wkeWebView)
@@ -169,70 +172,70 @@ interface WkeLib {
 	fun wkeSetEditable(webView: wkeWebView, editable: Boolean)
 
 	//70
-	fun wkeOnTitleChanged(webView: wkeWebView, callback: wkeTitleChangedCallback, callbackParam: Pointer)
+	fun wkeOnTitleChanged(webView: wkeWebView, callback: TitleChangedCallback, callbackParam: Pointer)
 
 	//71
-	fun wkeOnMouseOverUrlChanged(webView: wkeWebView, callback: wkeTitleChangedCallback, callbackParam: Pointer)
+	fun wkeOnMouseOverUrlChanged(webView: wkeWebView, callback: TitleChangedCallback, callbackParam: Pointer)
 
 	//72
-	fun wkeOnURLChanged(webView: wkeWebView, callback: wkeURLChangedCallback, callbackParam: Pointer)
+	fun wkeOnURLChanged(webView: wkeWebView, callback: URLChangedCallback, callbackParam: Pointer)
 
 	//73
-	fun wkeOnURLChanged2(webView: wkeWebView, callback: wkeURLChangedCallback2, callbackParam: Pointer?)
+	fun wkeOnURLChanged2(webView: wkeWebView, callback: URLChangedCallback2, callbackParam: Pointer?)
 
 	//75
-	fun wkeOnPaintUpdated(webView: wkeWebView, callback: wkePaintUpdatedCallback, callbackParam: Pointer)
+	fun wkeOnPaintUpdated(webView: wkeWebView, callback: PaintUpdatedCallback, callbackParam: Pointer)
 
 	//77
-	fun wkeOnPaintBitUpdated(webView: wkeWebView, callback: wkePaintBitUpdatedCallback, callbackParam: Pointer)
+	fun wkeOnPaintBitUpdated(webView: wkeWebView, callback: PaintBitUpdatedCallback, callbackParam: Pointer)
 
 	//78
-	fun wkeOnAlertBox(webView: wkeWebView, callback: wkeAlertBoxCallback, callbackParam: Pointer)
+	fun wkeOnAlertBox(webView: wkeWebView, callback: AlertBoxCallback, callbackParam: Pointer)
 
 	//79
-	fun wkeOnConfirmBox(webView: wkeWebView, callback: wkeConfirmBoxCallback, callbackParam: Pointer)
+	fun wkeOnConfirmBox(webView: wkeWebView, callback: ConfirmBoxCallback, callbackParam: Pointer)
 
 	//80
-	fun wkeOnPromptBox(webView: wkeWebView, callback: wkePromptBoxCallback, callbackParam: Pointer)
+	fun wkeOnPromptBox(webView: wkeWebView, callback: PromptBoxCallback, callbackParam: Pointer)
 
 	//81
-	fun wkeOnNavigation(webView: wkeWebView, callback: wkeNavigationCallback, callbackParam: Pointer)
+	fun wkeOnNavigation(webView: wkeWebView, callback: NavigationCallback, callbackParam: Pointer)
 
 	//83
-	fun wkeOnCreateView(webView: wkeWebView, callback: wkeCreateViewCallback, callbackParam: Pointer)
+	fun wkeOnCreateView(webView: wkeWebView, callback: CreateViewCallback, callbackParam: Pointer)
 
 	//85
-	fun wkeOnDocumentReady(webView: wkeWebView, callback: wkeDocumentReadyCallback, callbackParam: Pointer)
+	fun wkeOnDocumentReady(webView: wkeWebView, callback: DocumentReadyCallback, callbackParam: Pointer)
 
 	//86
-	fun wkeOnDocumentReady2(webView: wkeWebView, callback: wkeDocumentReady2Callback, callbackParam: Pointer)
+	fun wkeOnDocumentReady2(webView: wkeWebView, callback: DocumentReady2Callback, callbackParam: Pointer)
 
 	//87
-	fun wkeOnDownload(webView: wkeWebView, callback: wkeDownloadCallback, callbackParam: Pointer)
+	fun wkeOnDownload(webView: wkeWebView, callback: DownloadCallback, callbackParam: Pointer)
 
 	//88
-	fun wkeNetOnResponse(webView: wkeWebView, callback: wkeNetResponseCallback, callbackParam: Pointer)
+	fun wkeNetOnResponse(webView: wkeWebView, callback: NetResponseCallback, callbackParam: Pointer)
 
 	//89
-	fun wkeOnConsole(webView: wkeWebView, callback: wkeConsoleCallback, callbackParam: Pointer)
+	fun wkeOnConsole(webView: wkeWebView, callback: ConsoleCallback, callbackParam: Pointer)
 
 	//90
-	fun wkeSetUIThreadCallback(webView: wkeWebView, callback: wkeCallUiThread, callbackParam: Pointer)
+	fun wkeSetUIThreadCallback(webView: wkeWebView, callback: CallUiThread, callbackParam: Pointer)
 
 	//91
-	fun wkeOnLoadUrlBegin(webView: wkeWebView, callback: wkeLoadUrlBeginCallback, callbackParam: Pointer)
+	fun wkeOnLoadUrlBegin(webView: wkeWebView, callback: LoadUrlBeginCallback, callbackParam: Pointer)
 
 	//92
-	fun wkeOnLoadUrlEnd(webView: wkeWebView, callback: wkeLoadUrlEndCallback, callbackParam: Pointer)
+	fun wkeOnLoadUrlEnd(webView: wkeWebView, callback: LoadUrlEndCallback, callbackParam: Pointer)
 
 	//93
-	fun wkeOnDidCreateScriptContext(webView: wkeWebView, callback: wkeDidCreateScriptContextCallback, callbackParam: Pointer)
+	fun wkeOnDidCreateScriptContext(webView: wkeWebView, callback: DidCreateScriptContextCallback, callbackParam: Pointer)
 
 	//94
-	fun wkeOnWillReleaseScriptContext(webView: wkeWebView, callback: wkeWillReleaseScriptContextCallback, callbackParam: Pointer)
+	fun wkeOnWillReleaseScriptContext(webView: wkeWebView, callback: WillReleaseScriptContextCallback, callbackParam: Pointer)
 
 	//95
-	fun wkeOnWillMediaLoad(webView: wkeWebView, callback: wkeWillMediaLoadCallback, callbackParam: Pointer)
+	fun wkeOnWillMediaLoad(webView: wkeWebView, callback: WillMediaLoadCallback, callbackParam: Pointer)
 
 	//96
 	fun wkeIsMainFrame(webView: wkeWebView, frameId: wkeWebFrameHandle): Boolean
@@ -241,7 +244,7 @@ interface WkeLib {
 	fun wkeWebFrameGetMainFrame(webView: wkeWebView): wkeWebFrameHandle
 
 	//98
-	fun wkeRunJsByFrame(webView: wkeWebView, frameId: wkeWebFrameHandle, script: String, isInClosure: Boolean): jsValue
+	fun wkeRunJsByFrame(webView: wkeWebView, frameId: wkeWebFrameHandle, script: String, isInClosure: Boolean): JsValue
 
 	//99
 	fun wkeGetFrameUrl(webView: wkeWebView, frameId: wkeWebFrameHandle): String
@@ -280,7 +283,7 @@ interface WkeLib {
 	fun wkeDestroyWebView(webView: wkeWebView)
 
 	//111
-	fun wkeCreateWebWindow(type: wkeWindowType, parent: HWND?, x: Int, y: Int, width: Int, height: Int): wkeWebView
+	fun wkeCreateWebWindow(type: WindowType, parent: HWND?, x: Int, y: Int, width: Int, height: Int): wkeWebView
 
 	//112
 	fun wkeDestroyWebWindow(webWindow: wkeWebView)
@@ -289,10 +292,10 @@ interface WkeLib {
 	fun wkeGetWindowHandle(webWindow: wkeWebView): HWND
 
 	//114
-	fun wkeOnWindowClosing(webWindow: wkeWebView, callback: wkeWindowClosingCallback, param: Pointer)
+	fun wkeOnWindowClosing(webWindow: wkeWebView, callback: WindowClosingCallback, param: Pointer)
 
 	//115
-	fun wkeOnWindowDestroy(webWindow: wkeWebView, callback: wkeWindowDestroyCallback, param: Pointer)
+	fun wkeOnWindowDestroy(webWindow: wkeWebView, callback: WindowDestroyCallback, param: Pointer)
 
 	//116
 	fun wkeShowWindow(webWindow: wkeWebView, showFlag: Boolean)
@@ -418,7 +421,7 @@ interface WkeLib {
 	fun wkeNetCancelRequest(jobPtr: Pointer)
 
 	//159
-	fun wkeNetGetFavicon(webView: wkeWebView, callback: wkeOnNetGetFaviconCallback, param: Pointer): Int
+	fun wkeNetGetFavicon(webView: wkeWebView, callback: OnNetGetFaviconCallback, param: Pointer): Int
 
 	//160
 	fun wkeNetHoldJobToAsynCommit(jobPtr: Pointer): Boolean
@@ -444,136 +447,137 @@ interface WkeLib {
 	fun wkeNetFreePostBodyElement(element: PtrwkePostBodyElements)
 
 	//168
-	fun jsArgCount(es: jsExecState): Int
+	fun jsArgCount(es: JsExecState): Int
 
 	//169
-	fun jsArgType(es: jsExecState, argIdx: Int): jsType
+	fun jsArgType(es: JsExecState, argIdx: Int): jsType
 
 	//170
-	fun jsArg(es: jsExecState, argIdx: Int): jsValue
+	fun jsArg(es: JsExecState, argIdx: Int): JsValue
 
 	//171
-	fun jsTypeOf(v: jsValue): jsType
+	fun jsTypeOf(v: JsValue): JsType
 
 	//172
-	fun jsIsNumber(v: jsValue): Boolean
+	fun jsIsNumber(v: JsValue): Boolean
 
 	//173
-	fun jsIsString(v: jsValue): Boolean
+	fun jsIsString(v: JsValue): Boolean
 
 	//174
-	fun jsIsBoolean(v: jsValue): Boolean
+	fun jsIsBoolean(v: JsValue): Boolean
 
 	//175
-	fun jsIsObject(v: jsValue): Boolean
+	fun jsIsObject(v: JsValue): Boolean
 
 	//177
-	fun jsIsTrue(v: jsValue): Boolean
+	fun jsIsTrue(v: JsValue): Boolean
 
 	//178
-	fun jsIsFalse(v: jsValue): Boolean
+	fun jsIsFalse(v: JsValue): Boolean
 
 	//179
-	fun jsToInt(es: jsExecState, v: jsValue): Int
+	fun jsToInt(es: JsExecState, v: JsValue): Int
 
 	//180
-	fun jsToDouble(es: jsExecState, v: jsValue): Double
+	fun jsToDouble(es: JsExecState, v: JsValue): Double
 
 	//181
-	fun jsToTempStringW(es: jsExecState, v: jsValue): WCHAR_T
+	fun jsToTempStringW(es: JsExecState, v: JsValue): WCHAR_T
 
 	//182
-	fun jsToTempString(es: jsExecState, v: jsValue): String
+	fun jsToTempString(es: JsExecState, v: JsValue): String
 
 	//183
-	fun jsToString(es: jsExecState, v: jsValue): String
+	fun jsToString(es: JsExecState, v: JsValue): String
 
 	//184
-	fun jsToStringW(es: jsExecState, v: jsValue): WCHAR_T
+	fun jsToStringW(es: JsExecState, v: JsValue): WCHAR_T
 
 	//185
-	fun jsInt(n: Int): jsValue
+	fun jsInt(n: Int): JsValue
 
 	//186
-	fun jsString(es: jsExecState, str: String): jsValue
+	fun jsString(es: JsExecState, str: String): JsValue
 
 	//187
-	fun jsArrayBuffer(es: jsExecState, buffer: Pointer, @size_t size: Long): jsValue
+	fun jsArrayBuffer(es: JsExecState, buffer: Pointer, @size_t size: Long): JsValue
 
 	//188
-	fun jsGetArrayBuffer(es: jsExecState, v: jsValue): wkeMemBufPtr
+	fun jsGetArrayBuffer(es: JsExecState, v: JsValue): MemBuf
 
 	//189
-	fun jsEmptyObject(es: jsExecState): jsValue
+	fun jsEmptyObject(es: JsExecState): JsValue
 
 	//190
-	fun jsEvalW(es: jsExecState, str: WCHAR_T): jsValue
+	fun jsEvalW(es: JsExecState, str: WCHAR_T): JsValue
 
 	//191
-	fun jsEvalExW(es: jsExecState, str: WCHAR_T, isInClosure: Boolean): jsValue
+	fun jsEvalExW(es: JsExecState, str: WCHAR_T, isInClosure: Boolean): JsValue
 
 	//192
-	fun jsCall(es: jsExecState, func: jsValue, thisValue: jsValue, args: jsValuePtr, argCount: Int): jsValue
+	fun jsCall(es: JsExecState, func: JsValue, thisValue: JsValue, args: jsValuePtr, argCount: Int): JsValue
 
 	//193
-	fun jsCallGlobal(es: jsExecState, func: jsValue, args: jsValuePtr, argCount: Int): jsValue
+	fun jsCallGlobal(es: JsExecState, func: JsValue, args: jsValuePtr, argCount: Int): JsValue
 
 	//194
-	fun jsGet(es: jsExecState, obj: jsValue, prop: String)
+	fun jsGet(es: JsExecState, obj: JsValue, prop: String):JsValue
 
 	//195
-	fun jsSet(es: jsExecState, obj: jsValue, prop: String, v: jsValue)
+	fun jsSet(es: JsExecState, obj: JsValue, prop: String, v: JsValue)
 
 	//196
-	fun jsGetGlobal(es: jsExecState, prop: String): jsValue
+	fun jsGetGlobal(es: JsExecState, prop: String): JsValue
 
 	//197
-	fun jsSetGlobal(es: jsExecState, prop: String, v: jsValue)
+	fun jsSetGlobal(es: JsExecState, prop: String, v: JsValue)
 
 	//198
-	fun jsGetAt(es: jsExecState, obj: jsValue, index: Int): jsValue
+	fun jsGetAt(es: JsExecState, obj: JsValue, index: Int): JsValue
 
 	//199
-	fun jsSetAt(es: jsExecState, obj: jsValue, index: Int, v: jsValue)
+	fun jsSetAt(es: JsExecState, obj: JsValue, index: Int, v: JsValue)
 
 	//200
-	fun jsGetKeys(es: jsExecState, obj: jsValue): jsKeysPtr
+	fun jsGetKeys(es: JsExecState, obj: JsValue): jsKeysPtr
 
 	//201
-	fun jsGetLength(es: jsExecState, obj: jsValue): Int
+	fun jsGetLength(es: JsExecState, obj: JsValue): Int
 
 	//202
-	fun jsSetLength(es: jsExecState, obj: jsValue, length: Int)
+	fun jsSetLength(es: JsExecState, obj: JsValue, length: Int)
 
 	//203
-	fun jsGetWebView(es: jsExecState): wkeWebView
+	fun jsGetWebView(es: JsExecState): wkeWebView
 
 	//204
 	fun jsGC()
 
 	//205 fastcall
-	fun jsBindFunction(name: String, fn: jsNativeFunction, argCount: UINT)
+	@StdCall
+	fun jsBindFunction(name: String, fn: JsNativeFunction, @u_int32_t argCount: Int)
 
 	//206
-	fun jsBindGetter(name: String, fn: jsNativeFunction)
+	fun jsBindGetter(name: String, fn: JsNativeFunction)
 
 	//207
-	fun jsBindSetter(name: String, fn: jsNativeFunction)
+	fun jsBindSetter(name: String, fn: JsNativeFunction)
 
 	//208
-	fun wkeJsBindFunction(name: String, wkefn: jsNativeFunction, param: Pointer, argCount: UINT)
+	fun wkeJsBindFunction(name: String, wkefn: wkeJsNativeFunction, param: Pointer, argCount: UINT)
 
 	//209
-	fun jsObject(es: jsExecState, dat: jsDataPtr): jsValue
+	fun jsObject(es: JsExecState, dat: jsDataPtr): JsValue
 
 	//210
-	fun jsFunction(es: jsExecState, dat: jsDataPtr): jsValue
+	fun jsFunction(es: JsExecState, dat: jsDataPtr): JsValue
 
 	//211
-	fun jsGetData(es: jsExecState, v: jsValue): jsDataPtr
+	fun jsGetData(es: JsExecState, v: JsValue): JsData //jsDataPtr
 
 	//212
-	fun jsGetLastErrorIfException(es: jsExecState): jsExceptionInfoPtr
+	fun jsGetLastErrorIfException(es: JsExecState): JsExceptionInfo//jsExceptionInfoPtr
 }
 
 

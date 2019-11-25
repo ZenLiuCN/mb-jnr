@@ -9,12 +9,19 @@ typealias STARTUPINFOW = Pointer
 
 typealias WebDragOperationsMask = Long
 typealias WkeString = Pointer
+typealias NetJob = Pointer
 
 typealias HDC = Pointer
 typealias HWND = Pointer
 /*typealias jsExecState = JsExecStateInfo?
 typealias JsExecStateInfo = VoidPtr*/
-typealias jsExecState = VoidPtr
+
+typealias WebUrlRequestPtr = VoidPtr
+typealias WebUrlResponsePtr = VoidPtr
+typealias MediaPlayerClient = VoidPtr
+typealias MediaPlayer = VoidPtr
+typealias COLORREF = VoidPtr
+typealias JsExecState = VoidPtr
 //int64
 typealias JsValue=Long
 

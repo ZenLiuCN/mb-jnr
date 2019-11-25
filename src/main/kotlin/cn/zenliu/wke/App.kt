@@ -1,13 +1,11 @@
 package cn.zenliu.wke
 
-import jnr.ffi.*
-
-
+import cn.zenliu.wke.lib.*
 
 
 fun main() {
 	WKE.init()
-	val win=WKE.createWebWindow(0,0,800,480)
+	val win= WKE.createWebWindow(0,0,800,480)
 	win.onUrlChange2{vw,url->
 		println("url changed $url")
 	}
