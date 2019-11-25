@@ -20,27 +20,26 @@
 ```
 + how to map struct ?
 ```kotlin
-class DragData(
-	val itemList:Array<Item>,
-	val itemListLength:Int,
-	val modifireKeyState:Int,
-	val fileSystemId:MemBuf?, //map to MemBuf*
+class DragData(	
 	runtime: Runtime //this is a jnr.ffi.Runtime
-) : Struct(runtime)
+) : Struct(runtime){
+    val itemList=StructRef(Item::class.java)
+	val itemListLength=Unsigned32()
+	val modifireKeyState=Unsigned32()
+	val fileSystemId=StructRef(MemBuf::class.java) //map to MemBuf*
+	 }
 ```
 + how to map enmus?
 ```kotlin
-enum class NavigationType {
+enum class NavigationType: EnumMapper.IntegerEnum {
 	LINKCLICK,
 	FORMSUBMITTE,
 	BACKFORWARD,
 	RELOAD,
 	FORMRESUBMITT,
 	OTHER;
-	val value get() = ordinal
-	companion object {
-		fun from(ord: Int) = values().getOrNull(ord)
-	}
+	override fun intValue() = ordinal
+
 }
 enum class WebDragOperation(val value: Long) {
 	None(0),
@@ -51,9 +50,8 @@ enum class WebDragOperation(val value: Long) {
 	Move(16),
 	Delete(32),
 	Every(0xffffffff);
-	companion object {
-		fun from(ord: Long) = values().find { it.value == ord }
-	}
+    override fun intValue() = value.toInt()
+    fun longValue()=value
 }
 ```
 + how to map typedef like `typedef wkeWebDragOperation wkeWebDragOperationsMask;`

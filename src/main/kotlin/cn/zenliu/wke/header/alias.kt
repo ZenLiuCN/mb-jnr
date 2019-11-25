@@ -23,5 +23,5 @@ typealias MediaPlayer = VoidPtr
 typealias COLORREF = VoidPtr
 typealias JsExecState = VoidPtr
 //int64
-typealias JsValue=Long
+typealias JsValue=Pointer
 

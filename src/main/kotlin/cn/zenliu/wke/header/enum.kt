@@ -33,7 +33,7 @@ enum class KeyFlags(val value: Int) : EnumMapper.IntegerEnum {
 	EXTENDED(0x0100),
 	REPEAT(0x4000);
 
-	override fun intValue() = ordinal
+	override fun intValue() = value
 
 	companion object {
 		fun from(ord: Int) = values().find { it.value == ord }

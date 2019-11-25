@@ -1,256 +1,280 @@
 package cn.zenliu.wke.header
 
-import jnr.ffi.Struct
-import jnr.ffi.Runtime
+import jnr.ffi.*
 import jnr.ffi.annotations.*
-import kotlin.Boolean
+import java.nio.charset.*
 
 
 class Rect(
-	val x: Int,
-	val y: Int,
-	val w: Int,
-	val h: Int,
 	runtime: Runtime
-) : Struct(runtime){
-	constructor(runtime: Runtime):this(0,0,0,0,runtime)
+) : Struct(runtime) {
+	val x: Int = 0
+	val y: Int = 0
+	val w: Int = 0
+	val h: Int = 0
 }
 
 class Point(
-	val x: Int,
-	val y: Int,
 	runtime: Runtime
-) : Struct(runtime)
+) : Struct(runtime) {
+	val x: Int = 0
+	val y: Int = 0
+}
 
 class Proxy(
-	val hostName: String,
-	val port: Int,
-	val username: String,
-	val password: String,
 	runtime: Runtime
-) : Struct(runtime)
+) : Struct(runtime) {
+	val hostName: String = UTFString(0, Charset.defaultCharset())
+	val port: Int = 0
+	val username: String = UTFString(0, Charset.defaultCharset())
+	val password: String = UTFString(0, Charset.defaultCharset())
+}
 
 class Settings(
-	val proxy: Proxy,
-	val mask: Int,
 	runtime: Runtime
-) : Struct(runtime)
+) : Struct(runtime) {
+	val proxy = StructRef(Proxy::class.java)
+	val mask: Int = 0
+}
 
 class ViewSettings(
-	val size: Int,
-	val bgColor: Int,
 	runtime: Runtime
-) : Struct(runtime)
+) : Struct(runtime) {
+	val size: Int = 0
+	val bgColor: Int = 0
+}
 
 class GeolocationPosition(
-	val timestamp: Double,
-	val latitude: Double,
-	val longitude: Double,
-	val accuracy: Double,
-	val providesAltitude: Boolean,
-	val altitude: Double,
-	val providesAltitudeAccuracy: Boolean,
-	val altitudeAccuracy: Double,
-	val providesHeading: Boolean,
-	val heading: Double,
-	val providesSpeed: Boolean,
-	val speed: Double,
 	runtime: Runtime
-) : Struct(runtime)
+) : Struct(runtime) {
+	val timestamp: Double = Double()
+	val latitude: Double = Double()
+	val longitude: Double = Double()
+	val accuracy: Double = Double()
+	val providesAltitude: Boolean = Boolean()
+	val altitude: Double = Double()
+	val providesAltitudeAccuracy: Boolean = Boolean()
+	val altitudeAccuracy: Double = Double()
+	val providesHeading: Boolean = Boolean()
+	val heading: Double = Double()
+	val providesSpeed: Boolean = Boolean()
+	val speed: Double = Double()
+}
 
 class ClientHandler(
-	val onTitleChanged: ON_TITLE_CHANGED,
-	val onURLChanged: ON_URL_CHANGED,
 	runtime: Runtime
-) : Struct(runtime)
+) : Struct(runtime) {
+	val onTitleChanged = Function(ON_TITLE_CHANGED::class.java)
+	val onURLChanged = Function(ON_URL_CHANGED::class.java)
+}
 
 
 class WindowFeatures(
-	val x: Int,
-	val y: Int,
-	val width: Int,
-	val height: Int,
 
-	val menuBarVisible: kotlin.Boolean,
-	val statusBarVisible: kotlin.Boolean,
-	val toolBarVisible: kotlin.Boolean,
-	val locationBarVisible: kotlin.Boolean,
-	val scrollbarsVisible: kotlin.Boolean,
-	val resizable: kotlin.Boolean,
-	val fullscreen: kotlin.Boolean,
 	runtime: Runtime
-) : Struct(runtime){
-	constructor(runtime: Runtime):this(0,0,0,0,false,false,false,false,false,false,false,runtime)
+) : Struct(runtime) {
+	val x = Signed32()
+	val y = Signed32()
+	val width = Signed32()
+	val height = Signed32()
+
+	val menuBarVisible = Boolean()
+	val statusBarVisible = Boolean()
+	val toolBarVisible = Boolean()
+	val locationBarVisible = Boolean()
+	val scrollbarsVisible = Boolean()
+	val resizable = Boolean()
+	val fullscreen = Boolean()
 }
 
 class MemBuf(
-	val size: Int=-1,
-	val dat: Pointer?=null,
-	@jnr.ffi.types.size_t
-	val length: Long= -1L,
 	runtime: Runtime
-) : Struct(runtime)
+) : Struct(runtime){
+	val size=Unsigned32()
+	val dat=Address()
+	val length=size_t()
+}
 
 class Item(
-	val stringType: MemBuf?,
-	val stringData: MemBuf?,
-	val filenameData: MemBuf?,
-	val displayNameData: MemBuf?,
-	val binaryData: MemBuf?,
-	val title: MemBuf?,
-	val fileSystemURL: MemBuf?,
-	@jnr.ffi.types.int64_t
-	val fileSystemFileSize: Long,
-	val baseURL: MemBuf?,
 	runtime: Runtime
-) : Struct(runtime)
+) : Struct(runtime){
+	val stringType=StructRef(MemBuf::class.java)
+	val stringData=StructRef(MemBuf::class.java)
+	val filenameData=StructRef(MemBuf::class.java)
+	val displayNameData=StructRef(MemBuf::class.java)
+	val binaryData=StructRef(MemBuf::class.java)
+	val title=StructRef(MemBuf::class.java)
+	val fileSystemURL=StructRef(MemBuf::class.java)
+	val fileSystemFileSize=size_t()
+	val baseURL=StructRef(MemBuf::class.java)
+}
 
 class DragData(
-	val itemList: Array<Item>,
-	val itemListLength: Int,
-	val modifireKeyState: Int,
-	val fileSystemId: MemBuf?,
 	runtime: Runtime
-) : Struct(runtime)
+) : Struct(runtime){
+	val itemList=StructRef(Item::class.java)
+	val itemListLength=Unsigned32()
+	val modifireKeyState=Unsigned32()
+	val fileSystemId=StructRef(MemBuf::class.java)
+}
 
 
 class WillSendRequestInfo(
-	val url: WkeString,
-	val newUrl: WkeString,
-	val resourceType: ResourceType,
-	val httpResponseCode: Int,
-	val method: WkeString,
-	val referrer: WkeString,
-	val headers: jnr.ffi.Pointer,
 	runtime: Runtime
-) : Struct(runtime)
+) : Struct(runtime){
+	val url=Address() //WkeString
+	val newUrl=Address()
+	val resourceType=Enum(ResourceType::class.java)
+	val httpResponseCode=Unsigned32()
+	val method=Address()
+	val referrer=Address()
+	val headers=Address()
+}
 
 
 class PostBodyElement(
-	val size: Int,
-	val type: HttBodyElementType,//HttBodyElementType
-	val dat: MemBuf?,
-	val filePath: WkeString,
-	@jnr.ffi.types.int64_t
-	val fileStart: Long,
-	@jnr.ffi.types.int64_t
-	val fileLength: Long, // -1 means to the end of the file.
+
 	runtime: Runtime
-) : Struct(runtime)
+) : Struct(runtime){
+	val size=Unsigned32()
+	val type=Enum( HttBodyElementType::class.java)//HttBodyElementType
+	val dat=StructRef(MemBuf::class.java)
+	val filePath=Address()
+	val fileStart=Signed64()
+	val fileLength=Signed64() // -1 means to the end of the file.
+}
 
 class PostBodyElements(
-	val size: Int,
-	val element: Array<PostBodyElement>,
-	@jnr.ffi.types.size_t
-	val elementSize: Long,
-	val isDirty: Boolean,
 	runtime: Runtime
-) : Struct(runtime)
+) : Struct(runtime){
+	val size=Unsigned32()
+	val element=StructRef(PostBodyElement::class.java)
+	val elementSize=size_t()
+	val isDirty=Boolean()
+}
 
 class Slist(
-	@In
-	val data: ByteArray,
-	val next: Slist?,
 	runtime: Runtime
-) : Struct(runtime)
+) : Struct(runtime){
+	val data=Address()
+	val next=StructRef(Slist::class.java)
+}
 
 class TempCallbackInfo(
-	val size: Int,
-	val willSendRequestInfo: WillSendRequestInfo,
-	val url: String,
-	val postBody: PostBodyElements?,
-	val job: NetJob,
 	runtime: Runtime
-) : Struct(runtime)
+) : Struct(runtime){
+	val size=Unsigned32()
+	val willSendRequestInfo=Function(WillSendRequestInfo::class.java)
+	val url=UTF8StringRef()
+	val postBody=StructRef(PostBodyElements::class.java)
+	val job=Address()
+}
 
 class PrintSettings(
-	val structSize: Int,
-	val dpi: Int,
-	val width: Int, // in px
-	val height: Int,
-	val marginTop: Int,
-	val marginBottom: Int,
-	val marginLeft: Int,
-	val marginRight: Int,
-	val isPrintPageHeadAndFooter: Boolean,
-	val isPrintBackgroud: Boolean,
-	val isLandscape: Boolean,
+
 	runtime: Runtime
-) : Struct(runtime)
+) : Struct(runtime){
+	val structSize=Unsigned32()
+	val dpi=Unsigned32()
+	val width=Unsigned32() // in px
+	val height=Unsigned32()
+	val marginTop=Unsigned32()
+	val marginBottom=Unsigned32()
+	val marginLeft=Unsigned32()
+	val marginRight=Unsigned32()
+	val isPrintPageHeadAndFooter=Boolean()
+	val isPrintBackgroud=Boolean()
+	val isLandscape=Boolean()
+}
 
 class ScreenshotSettings(
-	val structSize: Int,
-	val width: Int,
-	val height: Int,
+
 	runtime: Runtime
-) : Struct(runtime)
+) : Struct(runtime){
+	val structSize=Unsigned32()
+	val width=Unsigned32()
+	val height=Unsigned32()
+}
 
 class MediaLoadInfo(
-	val size: Int,
-	val width: Int,
-	val height: Int,
-	val duration: Double,
+
 	runtime: Runtime
-) : Struct(runtime)
+) : Struct(runtime){
+	val size=Unsigned32()
+	val width=Unsigned32()
+	val height=Unsigned32()
+	val duration=Double()
+}
 
 class NetJobDataBind(
-	val param: VoidPtr,
-	val recvCallback: NetJobDataRecvCallback,
-	val finishCallback: NetJobDataFinishCallback,
+
 	runtime: Runtime
-) : Struct(runtime)
+) : Struct(runtime){
+	val param=Address()
+	val recvCallback=Function(NetJobDataRecvCallback::class.java)
+	val finishCallback=Function(NetJobDataFinishCallback::class.java)
+}
 
 class WindowCreateInfo(
-	val size: Int,
-	val parent: HWND,
-	val style: Struct.DWORD,
-	val styleEx: Struct.DWORD,
-	val x: Int,
-	val y: Int,
-	val width: Int,
-	val height: Int,
-	val color: COLORREF,
 	runtime: Runtime
-) : Struct(runtime)
+) : Struct(runtime){
+	val size=Unsigned32()
+	val parent=Address()
+	val style=DWORD()
+	val styleEx=DWORD()
+	val x=Unsigned32()
+	val y=Unsigned32()
+	val width=Unsigned32()
+	val height=Unsigned32()
+	val color=Address()
+}
 
 class DraggableRegion(
-	val bounds: Rect,
-	val draggable: Boolean,
 	runtime: Runtime
-) : Struct(runtime)
+) : Struct(runtime){
+	val bounds=StructRef(Rect::class.java)
+	val draggable= Boolean()
+}
 
 class JsData(
-	val typeName: CharArray,
-	val propertyGet: JsGetPropertyCallback,
-	val propertySet: JsSetPropertyCallback,
-	val finalize: JsFinalizeCallback,
-	val callAsFunction: JsCallAsFunctionCallback,
 	runtime: Runtime
-) : Struct(runtime)
+) : Struct(runtime){
+	val typeName=UTFStringRef(Charset.defaultCharset())
+	val propertyGet=Function( JsGetPropertyCallback::class.java)
+	val propertySet=Function( JsSetPropertyCallback::class.java)
+	val finalize=Function( JsFinalizeCallback::class.java)
+	val callAsFunction=Function(JsCallAsFunctionCallback::class.java)
+}
 
 class JsExceptionInfo(
-	val message: String, // Returns the exception message.
-	val sourceLine: String, // Returns the line of source code that the exception occurred within.
-	val scriptResourceName: String, // Returns the resource name for the script from where the function causing the error originates.
-	val lineNumber: Int, // Returns the 1-based number of the line where the error occurred or 0 if the line number is unknown.
-	val startPosition: Int, // Returns the index within the script of the first character where the error occurred.
-	val endPosition: Int, // Returns the index within the script of the last character where the error occurred.
-	val startColumn: Int, // Returns the index within the line of the first character where the error occurred.
-	val endColumn: Int, // Returns the index within the line of the last character where the error occurred.
-	val callstackString: String,
+
 	runtime: Runtime
-) : Struct(runtime)
-class JsKeys (
-	@jnr.ffi.types.u_int32_t
-	val length:Int,
-	val keys:VoidPtr,//const char**
+) : Struct(runtime){
+	val message=UTFStringRef(Charset.defaultCharset()) // Returns the exception message.
+	val sourceLine=UTFStringRef(Charset.defaultCharset()) // Returns the line of source code that the exception occurred within.
+	val scriptResourceName=UTFStringRef(Charset.defaultCharset()) // Returns the resource name for the script from where the function causing the error originates.
+	val lineNumber=Unsigned32() // Returns the 1-based number of the line where the error occurred or 0 if the line number is unknown.
+	val startPosition=Unsigned32() // Returns the index within the script of the first character where the error occurred.
+	val endPosition=Unsigned32() // Returns the index within the script of the last character where the error occurred.
+	val startColumn=Unsigned32() // Returns the index within the line of the first character where the error occurred.
+	val endColumn=Unsigned32() // Returns the index within the line of the last character where the error occurred.
+	val callstackString=UTFStringRef(Charset.defaultCharset())
+}
+
+class JsKeys(
+
 	runtime: Runtime
-) : Struct(runtime)
-class UrlRequestCallbacks (
-	val willRedirectCallback:OnUrlRequestWillRedirectCallback,
-	val didReceiveResponseCallback:OnUrlRequestDidReceiveResponseCallback,
-	val didReceiveDataCallback:OnUrlRequestDidReceiveDataCallback,
-	val didFailCallback:OnUrlRequestDidFailCallback,
-	val didFinishLoadingCallback:OnUrlRequestDidFinishLoadingCallback,
+) : Struct(runtime){
+	val length=Unsigned32()
+	val keys=Address()
+}
+
+class UrlRequestCallbacks(
 	runtime: Runtime
-) : Struct(runtime)
+) : Struct(runtime){
+	val willRedirectCallback=Function(OnUrlRequestWillRedirectCallback::class.java)
+	val didReceiveResponseCallback=Function(OnUrlRequestDidReceiveResponseCallback::class.java)
+	val didReceiveDataCallback=Function(OnUrlRequestDidReceiveDataCallback::class.java)
+	val didFailCallback=Function(OnUrlRequestDidFailCallback::class.java)
+	val didFinishLoadingCallback=Function(OnUrlRequestDidFinishLoadingCallback::class.java)
+}

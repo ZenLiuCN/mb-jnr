@@ -358,14 +358,17 @@ interface ConsoleCallback {
 	)
 }
 
+/*
 
-interface OnCallUiThread {
+interface  OnCallUiThread {
 	@Delegate
 	fun invoke(
 		webView: wkeWebView,
 		paramOnInThread: VoidPtr
 	):Unit
 }
+*/
+typealias OnCallUiThread=Pointer
 
 
 interface CallUiThread {
