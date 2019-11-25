@@ -3,7 +3,7 @@ package cn.zenliu.wke.header
 import jnr.ffi.Struct
 import jnr.ffi.Runtime
 import jnr.ffi.annotations.*
-import jnr.ffi.types.*
+import kotlin.Boolean
 
 
 class Rect(
@@ -12,7 +12,9 @@ class Rect(
 	val w: Int,
 	val h: Int,
 	runtime: Runtime
-) : Struct(runtime)
+) : Struct(runtime){
+	constructor(runtime: Runtime):this(0,0,0,0,runtime)
+}
 
 class Point(
 	val x: Int,
@@ -69,21 +71,23 @@ class WindowFeatures(
 	val width: Int,
 	val height: Int,
 
-	val menuBarVisible: Boolean,
-	val statusBarVisible: Boolean,
-	val toolBarVisible: Boolean,
-	val locationBarVisible: Boolean,
-	val scrollbarsVisible: Boolean,
-	val resizable: Boolean,
-	val fullscreen: Boolean,
+	val menuBarVisible: kotlin.Boolean,
+	val statusBarVisible: kotlin.Boolean,
+	val toolBarVisible: kotlin.Boolean,
+	val locationBarVisible: kotlin.Boolean,
+	val scrollbarsVisible: kotlin.Boolean,
+	val resizable: kotlin.Boolean,
+	val fullscreen: kotlin.Boolean,
 	runtime: Runtime
-) : Struct(runtime)
+) : Struct(runtime){
+	constructor(runtime: Runtime):this(0,0,0,0,false,false,false,false,false,false,false,runtime)
+}
 
 class MemBuf(
-	val size: Int,
-	val dat: Pointer,
+	val size: Int=-1,
+	val dat: Pointer?=null,
 	@jnr.ffi.types.size_t
-	val length: Long,
+	val length: Long= -1L,
 	runtime: Runtime
 ) : Struct(runtime)
 

@@ -23,6 +23,7 @@ interface FILE_SIZE {
 		 * @return Long
 		 * @see @size_t
 		 */
+	@size_t
 	fun invoke(file: VoidPtr): Long
 }
 
@@ -363,7 +364,7 @@ interface OnCallUiThread {
 	fun invoke(
 		webView: wkeWebView,
 		paramOnInThread: VoidPtr
-	)
+	):Unit
 }
 
 
