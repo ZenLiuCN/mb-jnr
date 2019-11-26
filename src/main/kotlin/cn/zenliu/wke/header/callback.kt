@@ -63,7 +63,7 @@ interface CookieVisitor {
 		secure: Int,
 		httpOlny: Int,
 		expires: Int?
-	): Boolean
+	)
 }
 
 interface TitleChangedCallback {
@@ -287,7 +287,7 @@ interface OnContextMenuItemClickCallback {
 		param: VoidPtr,
 		type: OnContextMenuItemClickType,
 		step: OnContextMenuItemClickStep,
-		frameId: wkeWebFrameHandle,
+		frameId: WebFrameHandle,
 		info: TempCallbackInfo?
 	): Boolean
 }
@@ -354,8 +354,7 @@ interface ConsoleCallback {
 		message: WkeString,
 		@u_int32_t
 		sourceLine: Int,
-		@In
-		stackTrace: WkeString?
+		stackTrace: WkeString
 	)
 }
 

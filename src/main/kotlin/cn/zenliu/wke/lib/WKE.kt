@@ -19,8 +19,8 @@ class WKE private constructor() {
 	private fun createWebWindow(
 		x: Int, y: Int, w: Int, h: Int, type: WindowType, parent: Pointer? = null) = api.wkeCreateWebWindow(
 		type, parent, x, y, w, h).let { WebWindow(api,it,runtime) }
-	fun newPointer(address: Long)=Pointer.newIntPointer(runtime,address)
-
+	private fun newPointer(address: Long)=Pointer.newIntPointer(runtime,address)
+	private fun fetchWkeString(str:WkeString)=str.getString(0)
 
 
 	companion object {
@@ -35,5 +35,6 @@ class WKE private constructor() {
 			.createWebWindow(x, y, w, h, type, parent)
 		internal val api get() = lib.api
 		fun newPointer(address: Long)=lib.newPointer(address)
+		fun fetchWkeString(str: WkeString)=str.getString(0)
 	}
 }

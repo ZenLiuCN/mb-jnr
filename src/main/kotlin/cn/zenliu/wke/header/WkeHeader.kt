@@ -8,9 +8,8 @@ import jnr.ffi.types.*
 
 
 typealias wkeWebView = Pointer
-typealias wkeWindowType = Int
 typealias ptrWkeProxy = Pointer
-typealias PtrwkeSettings = Pointer
+typealias ptrWkeSettings = Pointer
 typealias jsExceptionInfoPtr = Pointer
 typealias jsNativeFunction = Pointer
 typealias jsKeysPtr = Pointer
@@ -22,13 +21,8 @@ typealias wkeRequestType = Pointer
 typealias PtrwkePostBodyElements = Pointer
 typealias jsType = Pointer
 typealias LRESULT = Pointer
-//typealias wkeRect = Pointer
-
-
-typealias wkeWebFrameHandle = Pointer?
-
+typealias Cookie=Map<String,String>
 typealias WCHAR_T = String
-
 typealias UINT = Int
 typealias LPARAM = Int
 typealias WPARAM = Int

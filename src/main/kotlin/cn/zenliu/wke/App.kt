@@ -23,10 +23,11 @@ class App : Application() {
 			println("${Instant.now()} ${view.title}[$level]:\n $message <$sourceLine>\n$stackTrace")
 		}
 		win.load("http://www.baidu.com")
-		win.onDocumentReady {
-			println(it.title)
-			println(it.url)
-			println(it.title)
+		win.onDocumentReady2 {vw,id->
+			println("----doument Ready $id----")
+			println(vw.document.query("#s_mp > area"))
+
+
 		}
 
 

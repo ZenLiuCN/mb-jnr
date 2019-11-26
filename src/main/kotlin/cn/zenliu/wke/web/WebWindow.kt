@@ -13,4 +13,7 @@ class WebWindow internal constructor(
 	fun showWindow(boolean: Boolean){
 		api.wkeShowWindow(win,boolean)
 	}
+	fun isWebviewAlived(id:Int)=api.wkeIsWebviewAlived(id)
+	fun isMainFrame(id:Int)= api.wkeIsMainFrame(win,id)
+
 }

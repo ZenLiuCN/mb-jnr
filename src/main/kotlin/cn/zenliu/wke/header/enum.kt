@@ -29,6 +29,8 @@ enum class MouseFlags(val value: Int) : EnumMapper.IntegerEnum {
 	}
 }
 
+
+
 enum class KeyFlags(val value: Int) : EnumMapper.IntegerEnum {
 	EXTENDED(0x0100),
 	REPEAT(0x4000);

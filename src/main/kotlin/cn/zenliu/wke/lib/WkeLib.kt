@@ -4,6 +4,7 @@ import cn.zenliu.wke.header.*
 import jnr.ffi.*
 import jnr.ffi.annotations.*
 import jnr.ffi.types.*
+import java.nio.*
 
 
 interface WkeLib {
@@ -91,7 +92,7 @@ interface WkeLib {
 	fun wkeSetCookie(webView: wkeWebView, url: String, cookie: String)
 
 	//43
-	fun wkeVisitAllCookie(params: Pointer, visitor: Pointer)//wkeCookieVisitor
+	fun wkeVisitAllCookie(params: VoidPtr, visitor: CookieVisitor)//wkeCookieVisitor
 
 	//44
 	fun wkePerformCookieCommand(webView: wkeWebView, command: Pointer)//wkeCookieCommand
@@ -118,10 +119,14 @@ interface WkeLib {
 	fun wkeGetMediaVolume(webView: wkeWebView): Float
 
 	//52
-	fun wkeFireMouseEvent(webView: wkeWebView, message: UINT, x: Int, y: Int, flags: UINT): Boolean
+	fun wkeFireMouseEvent(webView: wkeWebView,
+	                      @u_int32_t
+	                      message: MouseMsg, x: Int, y: Int,
+	                      @u_int32_t
+	                      flags: MouseFlags): Boolean
 
 	//53
-	fun wkeFireContextMenuEvent(webView: wkeWebView, x: Int, y: Int, flags: UINT): Boolean
+	fun wkeFireContextMenuEvent(webView: wkeWebView, x: Int, y: Int, @u_int32_t flags: Int): Boolean
 
 	//54
 	fun wkeFireMouseWheelEvent(webView: wkeWebView, x: Int, y: Int, delta: Int, flags: UINT): Boolean
@@ -238,16 +243,16 @@ interface WkeLib {
 	fun wkeOnWillMediaLoad(webView: wkeWebView, callback: WillMediaLoadCallback, callbackParam: Pointer?)
 
 	//96
-	fun wkeIsMainFrame(webView: wkeWebView, frameId: wkeWebFrameHandle): Boolean
+	fun wkeIsMainFrame(webView: wkeWebView, frameId: WebFrameHandle): Boolean
 
 	//97
-	fun wkeWebFrameGetMainFrame(webView: wkeWebView): wkeWebFrameHandle
+	fun wkeWebFrameGetMainFrame(webView: wkeWebView): WebFrameHandle
 
 	//98
-	fun wkeRunJsByFrame(webView: wkeWebView, frameId: wkeWebFrameHandle, script: String, isInClosure: Boolean): JsValue
+	fun wkeRunJsByFrame(webView: wkeWebView, frameId: WebFrameHandle, script: String, isInClosure: Boolean): JsValue
 
 	//99
-	fun wkeGetFrameUrl(webView: wkeWebView, frameId: wkeWebFrameHandle): String
+	fun wkeGetFrameUrl(webView: wkeWebView, frameId: WebFrameHandle): String
 
 	//100
 	fun wkeGetString(s: WkeString): String
@@ -334,7 +339,7 @@ interface WkeLib {
 	fun wkeSetViewProxy(webView: wkeWebView, proxy: ptrWkeProxy)
 
 	//129
-	fun wkeConfigure(settings: PtrwkeSettings)
+	fun wkeConfigure(settings: ptrWkeSettings)
 
 	//130
 	fun wkeIsInitialize(): Boolean
@@ -370,7 +375,7 @@ interface WkeLib {
 	fun wkeSetHandleOffset(webView: wkeWebView, x: Int, y: Int)
 
 	//142
-	fun wkeSetViewSettings(webView: wkeWebView, settings: PtrwkeSettings)
+	fun wkeSetViewSettings(webView: wkeWebView, settings: ptrWkeSettings)
 
 	//143
 	fun wkeSetTransparent(webView: wkeWebView, transparent: Boolean)
@@ -496,15 +501,19 @@ interface WkeLib {
 
 	//185
 	fun jsInt(n: Int): JsValue
+	fun jsFloat(n: Float): JsValue
+	fun jsDouble(n: Double): JsValue
+	fun jsBoolean(n: Boolean): JsValue
 
 	//186
 	fun jsString(es: JsExecState, str: String): JsValue
 
 	//187
-	fun jsArrayBuffer(es: JsExecState, buffer: Pointer, @size_t size: Long): JsValue
+	fun jsArrayBuffer(es: JsExecState,@Out buffer: ByteBuffer, @size_t size: Long): JsValue
+	fun jsToV8Value(es: JsExecState,value:JsValue): VoidPtr
 
 	//188
-	fun jsGetArrayBuffer(es: JsExecState, v: JsValue): MemBuf
+	fun jsGetArrayBuffer(es: JsExecState, v: JsValue): MemBufPtr
 
 	//189
 	fun jsEmptyObject(es: JsExecState): JsValue
@@ -578,6 +587,40 @@ interface WkeLib {
 
 	//212
 	fun jsGetLastErrorIfException(es: JsExecState): JsExceptionInfo//jsExceptionInfoPtr
+
+	fun wkeIsLoading(view: wkeWebView): Boolean
+	fun wkeIsLoadingSucceeded(view: wkeWebView): Boolean
+	fun wkeIsLoadingFailed(view: wkeWebView): Boolean
+	fun wkeIsLoadingCompleted(view: wkeWebView): Boolean
+	fun wkeGetWebviewId(view: wkeWebView): Int
+	fun wkeIsWebviewAlived(viewId: Int):Boolean
+	fun wkeGetDocumentCompleteURL(view: wkeWebView,frameId: WebFrameHandle,partialURL:String):String
+	fun wkeCreateMemBuf(view: wkeWebView,buf: Buffer,@size_t lenght:Long):MemBufPtr
+	fun wkeFreeMemBuf(view: wkeWebView,buf:MemBufPtr)
+	fun wkeClearCookie(win: wkeWebView)
+	fun wkeAddPluginDirectory(win: wkeWebView, path: String)
+	fun wkeEditorPaste(win: wkeWebView)
+	fun wkeToString(message: WkeString): String
+	fun jsIsNull(value: JsValue):Boolean
+	fun jsIsFunction(value: JsValue):Boolean
+	fun jsIsUndefined(value: JsValue):Boolean
+	fun jsIsArray(value: JsValue):Boolean
+	fun jsToFloat(env: JsExecState, obj: JsValue): Float
+	fun jsToBoolean(env: JsExecState, obj: JsValue): Boolean
+	fun jsEmptyArray(env: JsExecState): JsValue
+	fun jsUndefined(): JsValue
+	fun jsNull(): JsValue
+	fun jsTrue(): JsValue
+	fun jsFalse(): JsValue
+	fun jsIsValidExecState(env: JsExecState): Boolean
+	fun jsIsJsValueValid(env: JsExecState,v:JsValue): Boolean
+	fun jsDeleteObjectProp(env: JsExecState, obj: JsValue, prop: String)
+	fun jsGlobalOBject(env: JsExecState): JsValue
+	fun jsAddRef(env: JsExecState, value: JsValue): Boolean
+	fun jsReleaseRef(env: JsExecState, value: JsValue): Boolean
+	fun jsThrowException(env: JsExecState, exception: String):JsValue
+	fun jsGetCallstack(env: JsExecState):String
+	fun jsEval(env: JsExecState, str: String): JsValue
 }
 
 

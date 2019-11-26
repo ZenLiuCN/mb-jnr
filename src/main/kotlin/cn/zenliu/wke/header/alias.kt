@@ -3,7 +3,8 @@ package cn.zenliu.wke.header
 import jnr.ffi.*
 import jnr.ffi.byref.*
 
-typealias WebFrameHandle = VoidPtr
+typealias WebFrameHandle = Int
+typealias MemBufPtr =Pointer// Struct.StructRef<MemBuf>
 typealias VoidPtr = Pointer?
 typealias STARTUPINFOW = VoidPtr
 

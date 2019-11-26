@@ -12,7 +12,7 @@
 ```kotlin
  interface SomeCallbackIface{
     @Delegate
-    fun func(someParam:Pointer)
+    fun func(someParam:Pointer) //can be simple value (can be nullable)
  }
  interface WkeLib{
     fun functionWithCallback(someObject:Pointer,someCallback:SomeCallbackIface)
@@ -29,7 +29,7 @@ class DragData(
 	val fileSystemId=StructRef(MemBuf::class.java) //map to MemBuf*
 	 }
 ```
-+ how to map enmus?
++ how to map enum?
 ```kotlin
 enum class NavigationType: EnumMapper.IntegerEnum {
 	LINKCLICK,
