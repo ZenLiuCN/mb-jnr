@@ -25,7 +25,7 @@ class App : Application() {
 		win.load("http://www.baidu.com")
 		win.onDocumentReady2 {vw,id->
 			println("----doument Ready $id----")
-			println(vw.document.query("#s_mp > area"))
+			println(vw.document.queryAll("#s_mp"))
 
 
 		}

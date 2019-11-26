@@ -108,7 +108,7 @@ class JsHtmlElement internal constructor(element: JsElement) : JsDocument(elemen
 }
 
 class JsHtmlElements internal constructor(element: JsElement) : JsDocument(element) {
-	val length = element.length
+	val length = element["length"].takeIf { it.isNumber }?.toInt()
 	operator fun get(idx: Int) = length.takeIf { length != null && idx < length }?.let { JsHtmlElement(element[idx]) }
 	fun forEach(call:(JsHtmlElement)->Unit){
 		length?.let { len->
