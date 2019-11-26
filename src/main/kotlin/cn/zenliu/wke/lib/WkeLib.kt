@@ -172,70 +172,70 @@ interface WkeLib {
 	fun wkeSetEditable(webView: wkeWebView, editable: Boolean)
 
 	//70
-	fun wkeOnTitleChanged(webView: wkeWebView, callback: TitleChangedCallback, callbackParam: Pointer)
+	fun wkeOnTitleChanged(webView: wkeWebView, callback: TitleChangedCallback, callbackParam: Pointer?)
 
 	//71
-	fun wkeOnMouseOverUrlChanged(webView: wkeWebView, callback: TitleChangedCallback, callbackParam: Pointer)
+	fun wkeOnMouseOverUrlChanged(webView: wkeWebView, callback: TitleChangedCallback, callbackParam: Pointer?)
 
 	//72
-	fun wkeOnURLChanged(webView: wkeWebView, callback: URLChangedCallback, callbackParam: Pointer)
+	fun wkeOnURLChanged(webView: wkeWebView, callback: URLChangedCallback, callbackParam: Pointer??)
 
 	//73
-	fun wkeOnURLChanged2(webView: wkeWebView, callback: URLChangedCallback2, callbackParam: Pointer?)
+	fun wkeOnURLChanged2(webView: wkeWebView, callback: URLChangedCallback2, callbackParam: Pointer??)
 
 	//75
-	fun wkeOnPaintUpdated(webView: wkeWebView, callback: PaintUpdatedCallback, callbackParam: Pointer)
+	fun wkeOnPaintUpdated(webView: wkeWebView, callback: PaintUpdatedCallback, callbackParam: Pointer?)
 
 	//77
-	fun wkeOnPaintBitUpdated(webView: wkeWebView, callback: PaintBitUpdatedCallback, callbackParam: Pointer)
+	fun wkeOnPaintBitUpdated(webView: wkeWebView, callback: PaintBitUpdatedCallback, callbackParam: Pointer?)
 
 	//78
-	fun wkeOnAlertBox(webView: wkeWebView, callback: AlertBoxCallback, callbackParam: Pointer)
+	fun wkeOnAlertBox(webView: wkeWebView, callback: AlertBoxCallback, callbackParam: Pointer?)
 
 	//79
-	fun wkeOnConfirmBox(webView: wkeWebView, callback: ConfirmBoxCallback, callbackParam: Pointer)
+	fun wkeOnConfirmBox(webView: wkeWebView, callback: ConfirmBoxCallback, callbackParam: Pointer?)
 
 	//80
-	fun wkeOnPromptBox(webView: wkeWebView, callback: PromptBoxCallback, callbackParam: Pointer)
+	fun wkeOnPromptBox(webView: wkeWebView, callback: PromptBoxCallback, callbackParam: Pointer?)
 
 	//81
-	fun wkeOnNavigation(webView: wkeWebView, callback: NavigationCallback, callbackParam: Pointer)
+	fun wkeOnNavigation(webView: wkeWebView, callback: NavigationCallback, callbackParam: Pointer?)
 
 	//83
-	fun wkeOnCreateView(webView: wkeWebView, callback: CreateViewCallback, callbackParam: Pointer)
+	fun wkeOnCreateView(webView: wkeWebView, callback: CreateViewCallback, callbackParam: Pointer?)
 
 	//85
-	fun wkeOnDocumentReady(webView: wkeWebView, callback: DocumentReadyCallback, callbackParam: Pointer)
+	fun wkeOnDocumentReady(webView: wkeWebView, callback: DocumentReadyCallback, callbackParam: Pointer??)
 
 	//86
-	fun wkeOnDocumentReady2(webView: wkeWebView, callback: DocumentReady2Callback, callbackParam: Pointer)
+	fun wkeOnDocumentReady2(webView: wkeWebView, callback: DocumentReady2Callback, callbackParam: Pointer?)
 
 	//87
-	fun wkeOnDownload(webView: wkeWebView, callback: DownloadCallback, callbackParam: Pointer)
+	fun wkeOnDownload(webView: wkeWebView, callback: DownloadCallback, callbackParam: Pointer?)
 
 	//88
-	fun wkeNetOnResponse(webView: wkeWebView, callback: NetResponseCallback, callbackParam: Pointer)
+	fun wkeNetOnResponse(webView: wkeWebView, callback: NetResponseCallback, callbackParam: Pointer?)
 
 	//89
-	fun wkeOnConsole(webView: wkeWebView, callback: ConsoleCallback, callbackParam: Pointer)
+	fun wkeOnConsole(webView: wkeWebView, callback: ConsoleCallback, callbackParam: Pointer?)
 
 	//90
-	fun wkeSetUIThreadCallback(webView: wkeWebView, callback: CallUiThread, callbackParam: Pointer)
+	fun wkeSetUIThreadCallback(webView: wkeWebView, callback: CallUiThread, callbackParam: Pointer?)
 
 	//91
-	fun wkeOnLoadUrlBegin(webView: wkeWebView, callback: LoadUrlBeginCallback, callbackParam: Pointer)
+	fun wkeOnLoadUrlBegin(webView: wkeWebView, callback: LoadUrlBeginCallback, callbackParam: Pointer?)
 
 	//92
-	fun wkeOnLoadUrlEnd(webView: wkeWebView, callback: LoadUrlEndCallback, callbackParam: Pointer)
+	fun wkeOnLoadUrlEnd(webView: wkeWebView, callback: LoadUrlEndCallback, callbackParam: Pointer?)
 
 	//93
-	fun wkeOnDidCreateScriptContext(webView: wkeWebView, callback: DidCreateScriptContextCallback, callbackParam: Pointer)
+	fun wkeOnDidCreateScriptContext(webView: wkeWebView, callback: DidCreateScriptContextCallback, callbackParam: Pointer?)
 
 	//94
-	fun wkeOnWillReleaseScriptContext(webView: wkeWebView, callback: WillReleaseScriptContextCallback, callbackParam: Pointer)
+	fun wkeOnWillReleaseScriptContext(webView: wkeWebView, callback: WillReleaseScriptContextCallback, callbackParam: Pointer?)
 
 	//95
-	fun wkeOnWillMediaLoad(webView: wkeWebView, callback: WillMediaLoadCallback, callbackParam: Pointer)
+	fun wkeOnWillMediaLoad(webView: wkeWebView, callback: WillMediaLoadCallback, callbackParam: Pointer?)
 
 	//96
 	fun wkeIsMainFrame(webView: wkeWebView, frameId: wkeWebFrameHandle): Boolean
@@ -250,22 +250,22 @@ interface WkeLib {
 	fun wkeGetFrameUrl(webView: wkeWebView, frameId: wkeWebFrameHandle): String
 
 	//100
-	fun wkeGetString(s: wkeString): String
+	fun wkeGetString(s: WkeString): String
 
 	//101
-	fun wkeGetStringW(string: wkeString): WCHAR_T
+	fun wkeGetStringW(string: WkeString): WCHAR_T
 
 	//102
-	fun wkeSetString(string: wkeString, str: String, @size_t len: Long)
+	fun wkeSetString(string: WkeString, str: String, @size_t len: Long)
 
 	//103
-	fun wkeSetStringW(string: wkeString, str: WCHAR_T, @size_t len: Long)
+	fun wkeSetStringW(string: WkeString, str: WCHAR_T, @size_t len: Long)
 
 	//104
-	fun wkeCreateStringW(str: WCHAR_T, @size_t len: Long): wkeString
+	fun wkeCreateStringW(str: WCHAR_T, @size_t len: Long): WkeString
 
 	//105
-	fun wkeDeleteString(str: wkeString)
+	fun wkeDeleteString(str: WkeString)
 
 	//106
 	fun wkeSetUserKeyValue(webView: wkeWebView, key: String, value: Pointer)
@@ -412,7 +412,7 @@ interface WkeLib {
 	fun wkeNetSetMIMEType(jobPtr: Pointer, type: String)
 
 	//156
-	fun wkeNetGetMIMEType(jobPtr: Pointer, mime: wkeString): String
+	fun wkeNetGetMIMEType(jobPtr: Pointer, mime: WkeString): String
 
 	//157
 	fun wkeNetSetData(jobPtr: Pointer, buf: Pointer, len: Int)

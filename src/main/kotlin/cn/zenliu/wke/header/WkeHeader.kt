@@ -25,33 +25,7 @@ typealias LRESULT = Pointer
 //typealias wkeRect = Pointer
 
 
-
-
-
-typealias wkeURLChangedCallback = Pointer
-typealias wkePaintUpdatedCallback = Pointer
-typealias wkeWindowClosingCallback = Pointer
-typealias wkeWindowDestroyCallback = Pointer
-typealias wkePaintBitUpdatedCallback = Pointer
-typealias wkeAlertBoxCallback = Pointer
-typealias wkeConfirmBoxCallback = Pointer
-typealias wkePromptBoxCallback = Pointer
-typealias wkeNavigationCallback = Pointer
-typealias wkeCreateViewCallback = Pointer
-typealias wkeDocumentReadyCallback = Pointer
-typealias wkeDocumentReady2Callback = Pointer
-typealias wkeDownloadCallback = Pointer
-typealias wkeNetResponseCallback = Pointer
-typealias wkeConsoleCallback = Pointer
-typealias wkeCallUiThread = Pointer
-typealias wkeLoadUrlBeginCallback = Pointer
-typealias wkeLoadUrlEndCallback = Pointer
-typealias wkeDidCreateScriptContextCallback = Pointer
-typealias wkeWillReleaseScriptContextCallback = Pointer
-typealias wkeWillMediaLoadCallback = Pointer
-typealias wkeString = Pointer
-
-typealias wkeWebFrameHandle = Pointer
+typealias wkeWebFrameHandle = Pointer?
 
 typealias WCHAR_T = String
 

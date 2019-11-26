@@ -10,4 +10,7 @@ class WebWindow internal constructor(
 	runtime:Runtime
 ) : WebView(api, win,runtime){
 	fun createRect(x: Int, y: Int, w: Int, h: Int) = Rect(runtime)
+	fun showWindow(boolean: Boolean){
+		api.wkeShowWindow(win,boolean)
+	}
 }

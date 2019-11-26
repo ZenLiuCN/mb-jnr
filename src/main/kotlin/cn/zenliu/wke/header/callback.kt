@@ -354,7 +354,8 @@ interface ConsoleCallback {
 		message: WkeString,
 		@u_int32_t
 		sourceLine: Int,
-		stackTrace: WkeString
+		@In
+		stackTrace: WkeString?
 	)
 }
 

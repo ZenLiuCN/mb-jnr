@@ -1,10 +1,11 @@
 package cn.zenliu.wke.header
 
 import jnr.ffi.*
+import jnr.ffi.byref.*
 
-typealias WebFrameHandle = Pointer
-typealias VoidPtr = Pointer
-typealias STARTUPINFOW = Pointer
+typealias WebFrameHandle = VoidPtr
+typealias VoidPtr = Pointer?
+typealias STARTUPINFOW = VoidPtr
 
 
 typealias WebDragOperationsMask = Long

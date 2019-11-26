@@ -278,3 +278,8 @@ class UrlRequestCallbacks(
 	val didFailCallback=Function(OnUrlRequestDidFailCallback::class.java)
 	val didFinishLoadingCallback=Function(OnUrlRequestDidFinishLoadingCallback::class.java)
 }
+/*class WkeString(
+	runtime: Runtime
+):Struct(runtime){
+
+}*/
