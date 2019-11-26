@@ -19,7 +19,7 @@ open class JsElement internal constructor(
 	internal val isArray get() = ctx.isArray(value)
 	internal val length = takeIf { isArray }?.let { ctx.getLength(value) }
 
-	internal operator fun set(prop: String, v: Any) = when {
+	internal operator fun <T> set(prop: String, v: T) = when {
 		!isObject -> throw Throwable("not js object")
 		v is Int -> ctx.Int(v).let { ctx.setProp(value, prop, it) }
 		v is String -> ctx.String(v).let { ctx.setProp(value, prop, it) }
@@ -27,7 +27,7 @@ open class JsElement internal constructor(
 		v is Float -> ctx.Float(v).let { ctx.setProp(value, prop, it) }
 		v is Double -> ctx.Double(v).let { ctx.setProp(value, prop, it) }
 		v is JsElement -> ctx.setProp(value, prop, v.value)
-		else -> Unit
+		else -> mapper.mapper.toJson(v).let { ctx.evalReturn(it) }.let { ctx.setProp(value, prop, it.value) }
 	}
 
 	internal operator fun get(prop: String) = if (!isObject) {
@@ -42,7 +42,7 @@ open class JsElement internal constructor(
 		v is Float -> ctx.Float(v).let { ctx.setAt(value, idx, it) }
 		v is Double -> ctx.Double(v).let { ctx.setAt(value, idx, it) }
 		v is JsElement -> ctx.setAt(value, idx, v.value)
-		else -> Unit
+		else -> mapper.mapper.toJson(v).let { ctx.evalReturn(it) }.let { ctx.setAt(value, idx, it.value) }
 	}
 
 	internal operator fun get(idx: Int) = if (!isArray) {
@@ -110,9 +110,9 @@ class JsHtmlElement internal constructor(element: JsElement) : JsDocument(elemen
 class JsHtmlElements internal constructor(element: JsElement) : JsDocument(element) {
 	val length = element["length"].takeIf { it.isNumber }?.toInt()
 	operator fun get(idx: Int) = length.takeIf { length != null && idx < length }?.let { JsHtmlElement(element[idx]) }
-	fun forEach(call:(JsHtmlElement)->Unit){
-		length?.let { len->
-			(0 until len ).forEach {
+	fun forEach(call: (JsHtmlElement) -> Unit) {
+		length?.let { len ->
+			(0 until len).forEach {
 				call.invoke(this[it]!!)
 			}
 		}
